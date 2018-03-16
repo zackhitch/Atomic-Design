@@ -5,7 +5,6 @@ import { Image } from '../atoms';
 
 function Options(props) {
   const leftComponent = <List list={props.list} />;
-  console.log('props.list: ' + props.list);
   const rightComponent = <Image label={props.imgLabel} url={props.imgUrl} />;
 
   return (

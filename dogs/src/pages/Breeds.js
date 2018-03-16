@@ -37,11 +37,19 @@ class Breeds extends Component {
     );
   }
 
-  getBreeds() {
-    axios
+  async getBreeds() {
+    await axios
       .get('https://dog.ceo/api/breeds/list')
       .then(response => response.data.message)
       .then(breeds => this.filterBreeds(breeds))
+      .then(breeds => {
+        return breeds.map(breed => {
+          return {
+            label: breed,
+            path: `/subbreeds/${breed}`
+          };
+        });
+      })
       .then(filteredBreeds => {
         this.setState({
           breeds: filteredBreeds
@@ -53,9 +61,9 @@ class Breeds extends Component {
 
   getFirstImage(dogs) {
     const firstDog = dogs[0];
-    this.setState({ imgLabel: firstDog });
+    this.setState({ imgLabel: firstDog.label });
     axios
-      .get(`https://dog.ceo/api/breed/${firstDog}/images/random`)
+      .get(`https://dog.ceo/api/breed/${firstDog.label}/images/random`)
       .then(response => this.setState({ imgUrl: response.data.message }))
       .catch(error => console.log(error));
   }
